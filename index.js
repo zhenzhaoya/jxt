@@ -34,6 +34,9 @@ JXT.prototype.getDefinition = function (el, ns, required) {
     if (required && !JXTClass) {
         throw new Error('Could not find definition for <' + el + ' xmlns="' + ns + '" />');
     }
+    if(!JXTClass&&!ns&&(el=='iq'||el=='message')){
+        JXTClass = this._LOOKUP['jabber:client|' + el];
+    }
     return JXTClass;
 };
 
@@ -81,6 +84,9 @@ JXT.prototype.parse = function (str) {
         return;
     }
     return this.build(xml);
+};
+JXT.prototype.parseXml = function (str) {
+    return helpers.parse(str);
 };
 
 JXT.prototype.extend = function (ParentJXT, ChildJXT, multiName, hideSingle) {
